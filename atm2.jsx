@@ -13,7 +13,7 @@ const ATMDeposit = ({ onChange, isDeposit, isValid }) => {
 const Account = () => {
   // let deposit = 0; // state of this transaction
   const [deposit, setDeposit] = React.useState(0);
-  const [totalState, setTotalState] = React.useState(0);
+  const [totalState, setTotalState] = React.useState(100);
   const [isDeposit, setIsDeposit] = React.useState(true);
   const [atmMode, setAtmMode] = React.useState('');
   const [validTransaction, setValidTransaction] = React.useState(true);
@@ -33,11 +33,15 @@ const Account = () => {
       setValidTransaction(true);
     }
     setDeposit(Number(event.target.value));
+    
   };
   const handleSubmit = (event) => {
     let newTotal = isDeposit ? totalState + deposit : totalState - deposit;
     setTotalState(newTotal);
     setValidTransaction(true);
+    if ((isDeposit === true) && newTotal >=70){
+    alert("Success! You are building good saving habits, invest it wisely 🧐.")};
+    document.getElementById('number-input').value=null;
     event.preventDefault();
   };
 
