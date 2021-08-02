@@ -21,10 +21,10 @@ const Account = () => {
   let status = `Account Balance $ ${totalState} `;
   console.log(`Account Rendered with isDeposit: ${isDeposit}`);
   const handleChange = (event) => {
+    
     console.log(Number(event.target.value));
     if (Number(event.target.value) <= 0) {
-      alert("You are attempting to withdraw beyond your means... Nice try 😏")
-      return setValidTransaction(true);
+      return setValidTransaction(false);
     }
     if (atmMode === 'Withdraw' && Number(event.target.value) > totalState) {
       alert("Nice try 😏 You are attempting to withdraw beyond your means, please amend your amount.")
@@ -33,7 +33,7 @@ const Account = () => {
       setValidTransaction(true);
     }
     setDeposit(Number(event.target.value));
-    
+
   };
   const handleSubmit = (event) => {
     let newTotal = isDeposit ? totalState + deposit : totalState - deposit;
@@ -60,10 +60,10 @@ const Account = () => {
     <form onSubmit={handleSubmit}>
       <>
         <h2 id="total">{status}</h2>
-        <label>Please select an action as follows: </label>
+        <label>Please select an action to perform as follows: </label>
         <br></br>
         <select onChange={(e) => handleModeSelect(e)} name="mode" id="mode-select">
-          <option id="no-selection" disabled={true} value="">select below</option>
+          <option id="no-selection" disabled={false} value="Select">select below</option>
           <option id="deposit-selection" value="Deposit">
             Deposit 💹
           </option>
