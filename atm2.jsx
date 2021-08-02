@@ -4,8 +4,8 @@ const ATMDeposit = ({ onChange, isDeposit, isValid }) => {
   return (
     <label className="label huge">
       <h3> {choice[Number(!isDeposit)]}</h3>
-      <input id="number-input" type="number" width="200" onChange={onChange}></input>
-      <input type="submit" disabled={!isValid} width="200" value="Submit" id="submit-input"></input>
+      <br></br><input id="number-input" type="number" width="200" onChange={onChange}></input>
+      <br></br><input type="submit" disabled={!isValid} width="200" value="Confirm" id="submit-input"></input>
     </label>
   );
 };
@@ -16,16 +16,18 @@ const Account = () => {
   const [totalState, setTotalState] = React.useState(0);
   const [isDeposit, setIsDeposit] = React.useState(true);
   const [atmMode, setAtmMode] = React.useState('');
-  const [validTransaction, setValidTransaction] = React.useState(false);
+  const [validTransaction, setValidTransaction] = React.useState(true);
 
   let status = `Account Balance $ ${totalState} `;
   console.log(`Account Rendered with isDeposit: ${isDeposit}`);
   const handleChange = (event) => {
     console.log(Number(event.target.value));
     if (Number(event.target.value) <= 0) {
-      return setValidTransaction(false);
+      alert("You are attempting to withdraw beyond your means... Nice try 😏")
+      return setValidTransaction(true);
     }
     if (atmMode === 'Withdraw' && Number(event.target.value) > totalState) {
+      alert("Nice try 😏 You are attempting to withdraw beyond your means, please amend your amount.")
       setValidTransaction(false);
     } else {
       setValidTransaction(true);
@@ -35,7 +37,7 @@ const Account = () => {
   const handleSubmit = (event) => {
     let newTotal = isDeposit ? totalState + deposit : totalState - deposit;
     setTotalState(newTotal);
-    setValidTransaction(false);
+    setValidTransaction(true);
     event.preventDefault();
   };
 
@@ -54,16 +56,17 @@ const Account = () => {
     <form onSubmit={handleSubmit}>
       <>
         <h2 id="total">{status}</h2>
-        <label>Please select an action as follows</label>
+        <label>Please select an action as follows: </label>
+        <br></br>
         <select onChange={(e) => handleModeSelect(e)} name="mode" id="mode-select">
-          <option id="no-selection" disabled="true" value="">select below</option>
+          <option id="no-selection" disabled={true} value="">select below</option>
           <option id="deposit-selection" value="Deposit">
-            Deposit
+            Deposit 💹
           </option>
           <option id="cashback-selection" value="Withdraw">
-            Withdraw
+            Withdraw 🤑
           </option>
-        </select>
+        </select><br></br>
         {atmMode && (
           <ATMDeposit
             onChange={handleChange}
